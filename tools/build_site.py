@@ -20,13 +20,17 @@
 #       JSON, so it also works when a page is opened from disk.
 #     - each page's Previous / Next links (between <!--pager--> and
 #       <!--/pager-->), in the order the Index (index.html) links them.
-#       Pages the Index doesn't link get none.
+#       Pages the Index doesn't link get none, except the Calendar's
+#       twelve month pages, which go month by month round the year
+#       (December's Next is January), with All months in the middle -
+#       as the wiki's own arrows at the foot of each month did.
 #   Running it twice changes nothing the second time. Standard library
 #   only. Made from the Rosetta repo's docs/build_manuals.py and the
 #   RosettaSupportManual repo's tools/build_manual.py.
 #
 # Version
 #   1.0 - 22 November 2026
+#   1.1 - 22 November 2026 - the Calendar's month pages go month by month
 #
 #######################################################################
 
@@ -38,6 +42,9 @@ from html.parser import HTMLParser
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FOLDER, NAME = ".", "BKBoK"
+MONTHS = ["January", "February", "March", "April", "May", "June", "July",
+          "August", "September", "October", "November", "December"]
+MONTH_PAGES = ["ManagementCalendar-%s.html" % m for m in MONTHS]
 
 
 class Page(HTMLParser):
@@ -121,7 +128,15 @@ def main():
         path = os.path.join(base, f)
         text = open(path, encoding="utf-8").read()
         pager = ""
-        if f in order:
+        if f in MONTH_PAGES:                 # the Calendar's months: month by month, round the year
+            i = MONTH_PAGES.index(f)
+            prev, nxt = MONTH_PAGES[i - 1], MONTH_PAGES[(i + 1) % 12]
+            pager = ('<nav class="pager" aria-label="Previous and next month">'
+                     '<a class="pager-prev" href="%s"><span>Previous month</span>%s</a>'
+                     '<a class="pager-contents" href="ManagementCalendar.html"><span>Calendar</span>All months</a>'
+                     '<a class="pager-next" href="%s"><span>Next month</span>%s</a></nav>'
+                     % (prev, MONTHS[MONTH_PAGES.index(prev)], nxt, MONTHS[MONTH_PAGES.index(nxt)]))
+        elif f in order:
             i = order.index(f)
             links = []
             if i > 0:

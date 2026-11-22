@@ -3,6 +3,9 @@
 #
 # Version
 #   1.0 - 22 November 2026
+#   1.1 - 22 November 2026 - the three old page copies left out go to
+#         the pages they copied; Guidelines and the empty pages left
+#         out fall through to the Index
 #
 # The pages keep the old site's names (index.php?n=Main.Varroa is now
 # Varroa.html) and the pictures keep their old folder (Images/), so old
@@ -27,6 +30,12 @@ RewriteCond %{QUERY_STRING} (?:^|&)n=Main[./]HomePage(?:&|$) [NC]
 RewriteRule ^(index\.php|pmwiki\.php)?$ / [R=301,L,QSD]
 RewriteCond %{QUERY_STRING} (?:^|&)n=Main[./]About(?:&|$) [NC]
 RewriteRule ^(index\.php|pmwiki\.php)?$ /AboutThisSite.html [R=301,L,QSD]
+RewriteCond %{QUERY_STRING} (?:^|&)n=Main[./]SplittingHives(?:&|$) [NC]
+RewriteRule ^(index\.php|pmwiki\.php)?$ /SplittingColonies.html [R=301,L,QSD]
+RewriteCond %{QUERY_STRING} (?:^|&)n=Main[./]InspectionInspectionAndActionRecord(?:&|$) [NC]
+RewriteRule ^(index\.php|pmwiki\.php)?$ /InspectionAndActionRecord.html [R=301,L,QSD]
+RewriteCond %{QUERY_STRING} (?:^|&)n=Main[./]VarroaSensitiveQueen(?:&|$) [NC]
+RewriteRule ^(index\.php|pmwiki\.php)?$ /GeneticStock.html [R=301,L,QSD]
 RewriteCond %{QUERY_STRING} (?:^|&)n=Main[./]BeingAGoodProt [NC]
 RewriteRule ^(index\.php|pmwiki\.php)?$ /BeingAGoodProtege.html [R=301,L,QSD]
 

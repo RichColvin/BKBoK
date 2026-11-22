@@ -28,7 +28,9 @@ from now on; PmWiki is no longer the source.
 
 It rebuilds the search index and each page's Previous / Next links (in
 the order the Index links the pages). A page needs a link on the Index
-to get Previous / Next links. A second run changes nothing.
+to get Previous / Next links; the exception is the Calendar's twelve
+month pages, which go month by month round the year (December's Next is
+January) with "All months" between. A second run changes nothing.
 
 ## Page rules
 

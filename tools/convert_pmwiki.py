@@ -32,6 +32,7 @@
 #
 # Version
 #   1.0 - 22 November 2026
+#   1.1 - 22 November 2026 - class="online" no longer split into letters
 #
 #######################################################################
 
@@ -51,9 +52,18 @@ SITE_URL = "https://bkbok.info/"
 
 # Pages not carried over: PmWiki's own, the page template, and pages
 # whose only use was editing the wiki.
-SKIP = {"Template", "WikiSandbox", "RecentChanges"}
+SKIP = {"Template", "WikiSandbox", "RecentChanges",
+        # left out 22 November 2026 (Rich): how to edit the wiki, and
+        # empty "still in development" pages nothing linked to
+        "Guidelines", "LangstrothHives", "QueenRearing", "RecordKeeping",
+        "ShookSwarm", "SmallHiveBeetle", "SpanningCover", "SwarmTraps",
+        "VarroaSensitiveHygiene"}
 # Page -> the page it now is.
-SAME_AS = {"HomePage": "index", "About": "AboutThisSite"}
+SAME_AS = {"HomePage": "index", "About": "AboutThisSite",
+           # old copies of other pages, left out 22 November 2026 (Rich)
+           "SplittingHives": "SplittingColonies",
+           "InspectionInspectionAndActionRecord": "InspectionAndActionRecord",
+           "VarroaSensitiveQueen": "GeneticStock"}
 
 
 def file_name(page):
@@ -184,7 +194,8 @@ def clean(soup, this_file):
             if isinstance(s, NavigableString) and s.startswith(" ") and s is h.contents[0]:
                 s.replace_with(s.lstrip())
     for el in soup.find_all(class_=True):
-        el["class"] = [c for c in el["class"] if c not in ("wikilink", "urllink", "selflink")]
+        cls = el["class"].split() if isinstance(el["class"], str) else el["class"]
+        el["class"] = [c for c in cls if c not in ("wikilink", "urllink", "selflink")]
         if not el["class"]:
             del el["class"]
     for el in soup.find_all(rel="nofollow"):
