@@ -1,0 +1,46 @@
+# The lines for bkbok.info's own .htaccess (in the site's top folder on
+# GoDaddy), for when the static HTML pages replace the PmWiki site.
+#
+# Version
+#   1.0 - 22 November 2026
+#
+# The pages keep the old site's names (index.php?n=Main.Varroa is now
+# Varroa.html) and the pictures keep their old folder (Images/), so old
+# links from forums, bookmarks and search engines still arrive at the
+# right page. Every other old wiki address - including ?action=edit,
+# which spammers used - goes to the Index, so the wiki can no longer
+# be edited even while its files are still on the server.
+#
+# The publish script never writes .htaccess, so paste these lines in
+# by hand: at the END of the existing .htaccess, below anything already
+# there (if it has a DirectoryIndex line, replace that one with the one
+# below rather than having two).
+
+# --- BKBoK: PmWiki replaced by static HTML pages (22 November 2026) ---
+# "/" shows index.html, not PmWiki's index.php
+DirectoryIndex index.html index.php
+
+RewriteEngine On
+
+# Pages that changed name
+RewriteCond %{QUERY_STRING} (?:^|&)n=Main[./]HomePage(?:&|$) [NC]
+RewriteRule ^(index\.php|pmwiki\.php)?$ / [R=301,L,QSD]
+RewriteCond %{QUERY_STRING} (?:^|&)n=Main[./]About(?:&|$) [NC]
+RewriteRule ^(index\.php|pmwiki\.php)?$ /AboutThisSite.html [R=301,L,QSD]
+RewriteCond %{QUERY_STRING} (?:^|&)n=Main[./]BeingAGoodProt [NC]
+RewriteRule ^(index\.php|pmwiki\.php)?$ /BeingAGoodProtege.html [R=301,L,QSD]
+
+# index.php?n=Main.SomePage -> SomePage.html, if that page exists
+RewriteCond %{QUERY_STRING} (?:^|&)n=Main[./]([A-Za-z0-9-]+)
+RewriteRule ^(index\.php|pmwiki\.php)?$ - [E=BK_PAGE:%1]
+RewriteCond %{ENV:BK_PAGE} .
+RewriteCond %{DOCUMENT_ROOT}/%{ENV:BK_PAGE}.html -f
+RewriteRule ^(index\.php|pmwiki\.php)?$ /%{ENV:BK_PAGE}.html [R=301,L,QSD]
+
+# Anything else of the old wiki's (pages that no longer exist, other
+# groups, ?action=edit, search, ...) -> the Index. "/" itself is left
+# alone when it has no ?n= (else it would redirect to itself).
+RewriteRule ^(index\.php|pmwiki\.php)$ / [R=301,L,QSD]
+RewriteCond %{QUERY_STRING} (?:^|&)(n|action)= [NC]
+RewriteRule ^$ / [R=301,L,QSD]
+# ---------------------------------------------------------------------
