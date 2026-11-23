@@ -18,6 +18,8 @@ from now on; PmWiki is no longer the source.
 - `bkbok-docs.css` / `bkbok-docs.js` - the look, the search box and
   click-to-enlarge pictures (made from the Rosetta manuals' files).
 - `search-index.js` - made by the builder; don't edit it.
+- `apple-touch-icon.png` - the icon an iPhone uses when the site is added
+  to its Home Screen (the banner's bee and book on honey gold).
 - `tools/` - the builder, the one-time converter, the restored Bee Escape
   Board page, and `BKBoK_htaccess_redirects.txt` (the lines for the
   site's `.htaccess`). Not published.
@@ -39,6 +41,11 @@ January) with "All months" between. A second run changes nothing.
   `Images/Frame.png`).
 - Links to other web sites get `class="online" target="_blank"
   rel="noopener"`; the stylesheet adds the arrow.
+- Tables (since 23 November 2026, for phones): a table of data with
+  lines is `class="lined"` and scrolls sideways on a phone if it must;
+  a table used only for layout is `class="layout"`, plus `stack` when
+  its columns (lists, headings, wide pictures) should go one under the
+  other on a phone - the Index and the Calendar's months do.
 - No tab characters; dates as "dd Month yyyy".
 
 ## Colours (option B, chosen 22 November 2026)

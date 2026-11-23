@@ -8,7 +8,11 @@
    headings 8.4:1, links 6.5:1, text in a note box 13:1.
 
    Version
-     1.0 - 22 November 2026 */
+     1.0 - 22 November 2026
+     1.1 - 23 November 2026 - on a phone, layout tables holding columns
+           (class "stack") go one under the other; only tables of data
+           (class "lined") scroll sideways; captioned pictures fit the
+           screen */
 
 :root {
   --navy: #6b4200;       /* headings (the name is kept from the Rosetta stylesheet) */
@@ -157,6 +161,7 @@ a.online::after { content: " ↗"; font-size: .85em; }
 .rfloat { float: right; margin: 4px 0 12px 20px; }
 .lfloat { float: left; margin: 4px 20px 12px 0; }
 .img { margin: 0; }
+.content div[style*="width"] { max-width: 100%; }   /* captioned pictures set a width */
 .frame { display: inline-block; padding: 6px; background: #fff; max-width: 100%; border: 1px solid var(--rule); border-radius: 4px; }
 .frame.rfloat, .frame.lfloat { display: block; }
 .caption { display: block; text-align: center; font-size: 14.5px; color: var(--muted); padding-top: 4px; }
@@ -226,7 +231,17 @@ a.download:hover { background: #4a2c00; color: #fff; }
   [id] { scroll-margin-top: 8px; }
   .footer-contact { text-align: left; }
   .rfloat, .lfloat, .content table[style*="float"] { float: none !important; width: auto !important; margin: 12px 0 !important; }
-  .content table { display: block; overflow-x: auto; }
+  /* layout tables holding columns (the Index, the Calendar's months) go
+     one under the other; tables of data scroll sideways if they must */
+  .content table.stack, .content table.stack > tbody, .content table.stack > tr,
+  .content table.stack > tbody > tr, .content table.stack > tr > td,
+  .content table.stack > tbody > tr > td { display: block; width: auto !important; }
+  .content table.layout { max-width: 100%; }
+  .content table.layout[width], .content table.layout[style*="width"] { width: auto !important; }
+  .content table.lined:not(.stack) { display: block; overflow-x: auto; }
+  .content table[align="right"], .content table[align="left"] {
+    float: none; margin: 12px auto; width: auto !important; max-width: 100%;
+  }
   .indent { margin-left: 1em; }
   h1 { font-size: 26px; }
 }
